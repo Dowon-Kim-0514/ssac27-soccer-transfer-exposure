@@ -5,8 +5,8 @@ import json
 from datetime import datetime, timezone
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-I, F, A = ROOT/'02_data/intermediate', ROOT/'02_data/final', ROOT/'01_audit'
+ROOT = Path(__file__).resolve().parents[1]/"data"/"work"
+I, F, A = ROOT/'datasets/intermediate', ROOT/'datasets/final', ROOT/'audit'
 
 def digest(path):
     h = hashlib.sha256()
@@ -71,7 +71,7 @@ Selected-squad appearances corroborate possible post-transfer play where exact c
 
 {distribution_text}
 
-V1-V5 follow the order in DATASET_VARIANT_SUMMARY.csv. Each exclusion is in dataset_row_inclusion_ledger.csv. Evidence: proxy_season_audit.csv and performance_season_bounds.csv under 02_data/intermediate.
+V1-V5 follow the order in DATASET_VARIANT_SUMMARY.csv. Each exclusion is in dataset_row_inclusion_ledger.csv. Evidence: proxy_season_audit.csv and performance_season_bounds.csv under datasets/intermediate.
 ''')
 
     cmodel = contracts[contracts.original_eligible]
@@ -200,7 +200,7 @@ This section supersedes the Phase 1 scope-stop statement for data/design work on
 - Preserved every exclusion in a row ledger. No original performance values, fees, identity values or league labels silently repaired.
 - Future fold-specific preprocessing, nested selection and temporal/player-ID validation remain unperformed. No final models, residual tests, position models or abstract. Original performance metrics cannot be attributed to corrected variants.
 
-See 02_data/final/PRIMARY_DATASET_RECOMMENDATION.md and 01_audit/*_AUDIT.md Phase 2 reports. RESULTS_MANIFEST.csv labels new artifacts separately.
+See datasets/final/PRIMARY_DATASET_RECOMMENDATION.md and audit/*_AUDIT.md Phase 2 reports. RESULTS_MANIFEST.csv labels new artifacts separately.
 ''', encoding='utf-8')
 
     # Verify preservation before extending the manifest. Only the authorized root
@@ -212,7 +212,7 @@ See 02_data/final/PRIMARY_DATASET_RECOMMENDATION.md and 01_audit/*_AUDIT.md Phas
         path = ROOT/row.relative_path
         assert path.is_file() and digest(path) == row.sha256, row.relative_path
         preserved += 1
-    snapshot = ROOT/'00_original_snapshot/Soccer_Transfer_Research_2026-09-22/original_sources/coding/data/clean_data.csv'
+    snapshot = ROOT.parent/'inputs/reference/clean_data.csv'
     clean = pd.read_csv(snapshot)
     eligible = clean[clean.log_transfer_fee.notna() & clean.from_league.notna()]
     a = pd.read_csv(F/'original_comparable_dataset.csv')
@@ -246,7 +246,7 @@ See 02_data/final/PRIMARY_DATASET_RECOMMENDATION.md and 01_audit/*_AUDIT.md Phas
     (I/'PHASE2_QA.json').write_text(json.dumps(qa, indent=2))
 
     new_docs = [A/name for name in ['LEAKAGE_AUDIT.md','CONTRACT_VARIABLE_AUDIT.md','FUZZY_MATCH_AUDIT.md','CLUB_LEAGUE_TIMING_AUDIT.md','RANK_AND_MULTICOLLINEARITY_AUDIT.md']]
-    paths = sorted(set([p for p in (ROOT/'02_data').rglob('*') if p.is_file() and not p.name.startswith('.') and '__pycache__' not in p.parts] + new_docs + [changelog]))
+    paths = sorted(set([p for p in (ROOT/'datasets').rglob('*') if p.is_file() and not p.name.startswith('.') and '__pycache__' not in p.parts] + new_docs + [changelog]))
     rows = prior.to_dict('records')
     existing = {r['relative_path']:i for i,r in enumerate(rows)}
     serial = max(int(r['result_id'][3:]) for r in rows)
