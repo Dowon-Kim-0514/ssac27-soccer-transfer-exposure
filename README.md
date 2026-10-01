@@ -159,11 +159,16 @@ Kaggle dataset:
 
 https://www.kaggle.com/datasets/davidcariboo/player-scores
 
-Files used in the project:
+Files required by the complete published workflow:
 
 - `transfers.csv`
 - `players.csv`
 - `clubs.csv`
+- `games.csv`
+- `competitions.csv`
+- `appearances.csv`
+
+The last three support timing, identity and historical league audits. See [source fingerprints](docs/PUBLIC_SOURCE_FILE_FINGERPRINTS.csv). Local timestamps are not verified Kaggle version dates. Additional private FBref/reference inputs are required, as listed in [data/README.md](data/README.md).
 
 The Kaggle page currently lists the dataset under the CC0: Public Domain license.
 
@@ -183,7 +188,7 @@ This study relies on third-party player-level performance and transfer data.
 
 Player-level raw and derived records are not redistributed in this repository because the author does not hold independent redistribution rights for all underlying third-party records.
 
-The SSAC27 Research Paper Competition organizers confirmed by email that, where third-party terms restrict redistribution of row-level data, the open-source requirement may instead be satisfied by providing:
+The author reports that the SSAC27 Research Paper Competition organizers confirmed by email that, where third-party terms restrict redistribution of row-level data, the open-source requirement may instead be satisfied by providing:
 
 - full analysis and modeling code
 - a data dictionary and variable definitions
@@ -192,32 +197,24 @@ The SSAC27 Research Paper Competition organizers confirmed by email that, where 
 - aggregate results and figures
 - reproducibility documentation
 
-This repository follows that structure.
+The private correspondence was not independently reviewed during this code QA. The author should retain it and confirm its scope. This statement is not an independent certification of competition compliance.
 
 Accordingly, it does not include raw FBref data, cached player-level source files, raw Transfermarkt-derived player records, merged player-level analytical datasets, player-level predictions, or player-level residual files.
+
+## Reproduction Status
+
+Path-only release adaptations are documented in [PATH_ADAPTATIONS.md](docs/PATH_ADAPTATIONS.md). Numerical logic and frozen results are unchanged. No model was rerun in this QA. A fresh checkout is not self-sufficient: authorized matching historical inputs are required, and the exact historical Kaggle version remains unrecovered. Read [REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) before executing code.
+
+Use `python code/prepare_public_workspace.py --check` for a non-modeling input check. The ordered workflow and separate initialization command are documented there. Missing helper code and the original design-evidence script are now included. All generated player-level material stays in ignored data/work/, never public results/.
 
 ## Repository Structure
 
 ```text
-.
-├── README.md
-├── METHODOLOGY_CHANGELOG.md
-├── R_DEPENDENCIES.md
-├── requirements.txt
-│
-├── code/
-│   └── analysis, modeling, validation, and position-analysis scripts
-│
-├── docs/
-│   ├── CODE_PROVENANCE.csv
-│   ├── DATA_DICTIONARY.md
-│   ├── METHODOLOGY.md
-│   ├── REPRODUCIBILITY.md
-│   ├── DATA_ACCESS_AND_RIGHTS.md
-│   └── LICENSE_NOTES.md
-│
-├── results/
-│   └── aggregate model and validation results
-│
-└── figures/
-    └── final research figures
+code/       path-adapted scripts and I/O-only workspace initializer
+docs/       provenance, fingerprints, rights, reproduction and QA
+results/    unchanged aggregate reference results
+figures/    unchanged final figures
+data/       README only; inputs/ and work/ are ignored
+```
+
+requirements.txt includes all directly imported Python dependencies, including statsmodels, matplotlib and the historical audit-stage xgboost dependency. R_DEPENDENCIES.md documents recorded reproduction versions, not a recovered original authoring lockfile.
