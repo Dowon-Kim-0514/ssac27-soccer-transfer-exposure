@@ -4,12 +4,12 @@ import csv, datetime, hashlib, json, re, unicodedata, shutil
 import numpy as np
 import pandas as pd
 
-ROOT=Path(__file__).resolve().parents[2]
-I=ROOT/'02_data/intermediate'
-F=ROOT/'02_data/final'
-A=ROOT/'01_audit'
-S=ROOT/'00_original_snapshot/Soccer_Transfer_Research_2026-09-22/original_sources/coding'
-RAW=next(S.rglob('transfers.csv')).parent
+ROOT=Path(__file__).resolve().parents[1]/"data"/"work"
+I=ROOT/'datasets/intermediate'
+F=ROOT/'datasets/final'
+A=ROOT/'audit'
+S=ROOT.parent/'inputs/reference'
+RAW=ROOT.parent/'inputs/kaggle'
 BIG={'GB1','ES1','L1','IT1','FR1'}
 COMP={'Premier League':'GB1','La Liga':'ES1','Bundesliga':'L1','Serie A':'IT1','Ligue 1':'FR1'}
 
@@ -35,7 +35,7 @@ def main():
     I.mkdir(parents=True,exist_ok=True);F.mkdir(parents=True,exist_ok=True)
     prior_manifest=I/'PHASE1_RESULTS_MANIFEST.csv'
     if not prior_manifest.exists():shutil.copy2(ROOT/'RESULTS_MANIFEST.csv',prior_manifest)
-    clean=pd.read_csv(S/'data/clean_data.csv')
+    clean=pd.read_csv(S/'clean_data.csv')
     lin=pd.read_csv(I/'original_clean_lineage.csv',low_memory=False)
     tr=pd.read_csv(I/'original_transfer_dedup_lineage.csv')
     fb=pd.read_csv(I/'original_fbref_dedup_lineage.csv',low_memory=False)
@@ -368,7 +368,7 @@ def main():
             with_contract_inclusion=role in ['NUMERIC_STRUCTURAL','CATEGORICAL_FIXED_EFFECT','ORIGINAL_MODEL4_PERFORMANCE','SENSITIVITY_ONLY'],
             reason_for_inclusion=reason if role in ['NUMERIC_STRUCTURAL','CATEGORICAL_FIXED_EFFECT','ORIGINAL_MODEL4_PERFORMANCE'] else '',
             reason_for_exclusion=reason if role not in ['NUMERIC_STRUCTURAL','CATEGORICAL_FIXED_EFFECT','ORIGINAL_MODEL4_PERFORMANCE'] else '',
-            VIF_location='02_data/intermediate/revised_full_design_vif.csv; dummy-level and dataset-specific',
+            VIF_location='datasets/intermediate/revised_full_design_vif.csv; dummy-level and dataset-specific',
             original_value_modified=False))
     save(pd.DataFrame(dictionary),'revised_feature_dictionary.csv',F)
     summary=dict(phase='PHASE2_DATA_AND_DESIGN_ONLY',original_clean_n=1622,original_model_n=len(original),
