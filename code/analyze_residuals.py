@@ -7,8 +7,8 @@ from scipy import stats
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
 
-ROOT=Path(__file__).resolve().parents[2];P=ROOT/'05_position_analysis';E=ROOT/'06_residual_analysis'
-sp=importlib.util.spec_from_file_location('pos',P/'tools/analyze_positions.py');pos=importlib.util.module_from_spec(sp);sp.loader.exec_module(pos)
+ROOT=Path(__file__).resolve().parents[1]/"data"/"work";P=ROOT/'positions';E=ROOT/'residuals'
+sp=importlib.util.spec_from_file_location('pos',Path(__file__).resolve().parent/'analyze_positions.py');pos=importlib.util.module_from_spec(sp);sp.loader.exec_module(pos)
 
 def mean_summary(g,label):
     y=g.residual_log.to_numpy();mu=float(y.mean());n=len(y)
@@ -33,7 +33,7 @@ def main():
     for dataset,filename in [('MIN270','primary_min270_dataset.csv'),('MIN450','sensitivity_min450_dataset.csv'),('MIN900','sensitivity_min900_dataset.csv')]:
         data=pos.prepare(filename)
         for method,prefix in [('grouped','player_group'),('temporal','temporal')]:
-            p=pd.read_csv(ROOT/'04_validation'/f'{dataset}_{prefix}_oof_predictions.csv');p=p[p.model.eq('Model 4')].copy()
+            p=pd.read_csv(ROOT/'validation'/f'{dataset}_{prefix}_oof_predictions.csv');p=p[p.model.eq('Model 4')].copy()
             d=p.merge(data[['original_clean_row_id','player_name','to_league','position_group','age_at_transfer','Mins_Per_90_Playing']],left_on='row_id',right_on='original_clean_row_id',validate='one_to_one')
             assert len(d)==len(p)
             d['dataset']=dataset;d['validation_source']=method;d['residual_log']=d.actual_log_fee-d.predicted_log_fee
