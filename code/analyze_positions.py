@@ -7,9 +7,9 @@ from scipy import stats
 import statsmodels.api as sm
 from statsmodels.stats.multitest import multipletests
 
-ROOT=Path(__file__).resolve().parents[2]
-P=ROOT/'05_position_analysis';E=ROOT/'06_residual_analysis';F=ROOT/'07_figures';T=ROOT/'08_tables';R=ROOT/'09_reports'
-sp=importlib.util.spec_from_file_location('p3',ROOT/'03_models/tools/corrected_modeling.py');p3=importlib.util.module_from_spec(sp);sp.loader.exec_module(p3)
+ROOT=Path(__file__).resolve().parents[1]/"data"/"work"
+P=ROOT/'positions';E=ROOT/'residuals';F=ROOT/'figures';T=ROOT/'tables';R=ROOT/'reports'
+sp=importlib.util.spec_from_file_location('p3',Path(__file__).resolve().parent/'corrected_modeling.py');p3=importlib.util.module_from_spec(sp);sp.loader.exec_module(p3)
 GROUPS=['FW','AM','CM/DM','SB','CB','GK'];OUTFIELD=GROUPS[:-1]
 MAPPING={'Centre-Forward':'FW','Right Winger':'FW','Left Winger':'FW','Attacking Midfield':'AM','Second Striker':'AM',
          'Central Midfield':'CM/DM','Defensive Midfield':'CM/DM','Right Midfield':'CM/DM','Left Midfield':'CM/DM',
@@ -29,7 +29,7 @@ def save(x,name,folder=P):pd.DataFrame(x).to_csv(folder/name,index=False)
 def dump(x,name,folder=P): (folder/name).write_text(json.dumps(x,indent=2,default=lambda z:z.item() if hasattr(z,'item') else str(z)))
 def rng(label):return np.random.default_rng(seed(label))
 def prepare(name):
-    d=pd.read_csv(ROOT/'02_data/final'/name);d['position_group']=d.sub_position.map(MAPPING)
+    d=pd.read_csv(ROOT/'datasets/final'/name);d['position_group']=d.sub_position.map(MAPPING)
     assert d.position_group.notna().all() and d.Mins_Per_90_Playing.ge(3).all()
     return d
 
@@ -269,8 +269,8 @@ def main():
     save(changing[['original_clean_row_id','player_id','player_name','transfer_season','sub_position','position_group']],'players_with_position_group_changes.csv')
     save(descriptives(d),'position_metric_descriptives.csv')
     # Inspect upstream keeper excess-goals field, without injecting new metrics.
-    raw=pd.read_csv(ROOT/'01_audit/reproduction/fresh_cache_attempt/downloaded_tables/keepers_adv_data.csv')
-    lineage=pd.read_csv(ROOT/'02_data/intermediate/original_clean_lineage.csv',low_memory=False).set_index('original_clean_row_id')
+    raw=pd.read_csv(ROOT.parent/'inputs/fbref_tables/keepers_adv_data.csv')
+    lineage=pd.read_csv(ROOT/'datasets/intermediate/original_clean_lineage.csv',low_memory=False).set_index('original_clean_row_id')
     keeper=[]
     for row in d[d.position_group.eq('GK')].itertuples():
         l=lineage.loc[row.original_clean_row_id];match=raw[raw.Player.eq(row.player_name)&raw.Squad.eq(l.Squad)&raw.Season_End_Year.eq(l.Season_End_Year)]
@@ -286,7 +286,7 @@ def main():
         save(imp,'position_feature_importance_'+('grouped' if kind=='group' else 'temporal')+'.csv')
         save(pred,f'global_model4_{kind}_oof_recreated.csv');save(ap,f'xg_ablation_{kind}_predictions.csv')
         # Verify exact reproduction of previously saved genuine OOS predictions.
-        previous=pd.read_csv(ROOT/'04_validation'/f'MIN270_{"player_group" if kind=="group" else "temporal"}_oof_predictions.csv')
+        previous=pd.read_csv(ROOT/'validation'/f'MIN270_{"player_group" if kind=="group" else "temporal"}_oof_predictions.csv')
         merged=pred.merge(previous[previous.model.eq('Model 4')],on='row_id',validate='one_to_one')
         assert len(merged)==len(pred) and np.allclose(merged.predicted,merged.predicted_log_fee,atol=1e-8)
         print('Completed primary importance/ablation',kind,flush=True)
