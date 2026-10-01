@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 from statsmodels.stats.multitest import multipletests
 
-ROOT = Path(__file__).resolve().parents[2]
-P = ROOT/'05_position_analysis'; E = ROOT/'06_residual_analysis'
-F = ROOT/'07_figures'; R = ROOT/'09_reports'; T = ROOT/'08_tables'
+ROOT = Path(__file__).resolve().parents[1]/"data"/"work"
+P = ROOT/'positions'; E = ROOT/'residuals'
+F = ROOT/'figures'; R = ROOT/'reports'; T = ROOT/'tables'
 os.environ['MPLCONFIGDIR'] = str(F/'.matplotlib')
 import matplotlib
 matplotlib.use('Agg')
@@ -60,7 +60,7 @@ def generate():
     icols=['feature','raw_p','adjusted_p','delta_rmse','rmse_ci_low','rmse_ci_high']
     interaction_text=METHOD+'\n## Six separate interaction blocks\n'+table(omnibus,icols)+'''
 
-No planned omnibus interaction survives BH at 0.05. Progressive carrying has an unadjusted signal, but it does not survive the planned family correction and its held-out RMSE gain is uncertain. Therefore descriptive differences in model reliance are not formal evidence of different underlying slopes. Goalkeeper xG/goals interactions with no variation are non-estimable, not zero effects; sparse goalkeeper outfield interactions must not be interpreted as goalkeeper skill. Complete coefficients, clustered standard errors, intervals, and adjusted p-values are in `05_position_analysis/position_interaction_results.csv`.
+No planned omnibus interaction survives BH at 0.05. Progressive carrying has an unadjusted signal, but it does not survive the planned family correction and its held-out RMSE gain is uncertain. Therefore descriptive differences in model reliance are not formal evidence of different underlying slopes. Goalkeeper xG/goals interactions with no variation are non-estimable, not zero effects; sparse goalkeeper outfield interactions must not be interpreted as goalkeeper skill. Complete coefficients, clustered standard errors, intervals, and adjusted p-values are in `positions/position_interaction_results.csv`.
 '''+LIMITS
     report('POSITION_INTERACTION_REPORT.md','Position x Performance Interactions',interaction_text)
     rtext='''## Residual provenance
@@ -71,9 +71,9 @@ Mean residual inference uses player-clustered intercept tests and player-cluster
 ## Stability conclusion
 No tested residual pattern meets the documented cross-validation-source robustness rule. Temporal overprediction for La Liga, Serie A, 2021-22 and 2022-23 persists across exposure sensitivities, but comparable grouped estimates are near zero. The negative temporal age slope also does not reproduce in grouped validation. These are MIXED forecasting/calibration findings, not evidence of market premiums. Same-season grouped models can learn season fixed effects; temporal models must encode unseen future seasons using the training-frequency convention. This is a plausible design difference, not an identified explanation.
 
-The robustness rule requires sufficient player counts, same direction across six comparable threshold/source cells and a practical magnitude screen, anchored in a MIN270 candidate. It does not demand significance in every sensitivity. See `06_residual_analysis/RESIDUAL_ANALYSIS_PLAN.json` for exact rules.
+The robustness rule requires sufficient player counts, same direction across six comparable threshold/source cells and a practical magnitude screen, anchored in a MIN270 candidate. It does not demand significance in every sensitivity. See `residuals/RESIDUAL_ANALYSIS_PLAN.json` for exact rules.
 
-## Primary subgroup estimates\n'''+table(residual,['validation_source','family','category','n','mean_residual','ci_low','ci_high','adjusted_p'])+'\n\n## Continuous age\n'+table(age)+'\n\n## Cross-source classifications\n'+table(matrix[['family','category','robustness','primary_candidate']].drop_duplicates())+'\n\nSources: `06_residual_analysis/MIN270_oos_residuals.csv`, `threshold_oos_residuals.csv`, `residual_robustness_matrix.csv`.\n'+LIMITS
+## Primary subgroup estimates\n'''+table(residual,['validation_source','family','category','n','mean_residual','ci_low','ci_high','adjusted_p'])+'\n\n## Continuous age\n'+table(age)+'\n\n## Cross-source classifications\n'+table(matrix[['family','category','robustness','primary_candidate']].drop_duplicates())+'\n\nSources: `residuals/MIN270_oos_residuals.csv`, `threshold_oos_residuals.csv`, `residual_robustness_matrix.csv`.\n'+LIMITS
     report('RESIDUAL_ROBUSTNESS_REPORT.md','Out-of-Sample Residual Robustness',rtext)
     jordan='''## Feedback and testable hypothesis
 The supplied task paraphrases Jordan Betterman's feedback as questioning whether xG is informative across positions, particularly centre-backs. No verbatim original feedback is available here; this report does not attribute a stronger or exact quotation. xG measures shooting opportunity quality, not comprehensive role-specific performance or player quality.
@@ -90,16 +90,16 @@ FW goals, CM/DM playing exposure, SB pass completion, and CB playing exposure re
 Co-retention of goals and xG in the original full-sample-selected model was not proof that clubs independently price chance quality. Honest ablation gives a weaker conclusion. A recruitment analyst can use a pooled exposure-qualified fee benchmark, check role-relevant inputs and reliability, and investigate individual prediction gaps with scouting and negotiation context. Neither xG alone nor this model should rank comprehensive player quality. Separate position models were not better than the global benchmark on these same held-out rows.
 '''+METHOD+LIMITS
     report('JORDAN_BETTERMAN_FEEDBACK_ANALYSIS.md','Jordan Betterman Feedback: Evidence Assessment',jordan)
-    sensitivity=read('minutes_threshold_sensitivity.csv',ROOT/'04_validation')
-    failure=read('MIN270_2022_23_failure_diagnostic.csv',ROOT/'04_validation')
-    pooled=read('MIN270_temporal_pooled_results.csv',ROOT/'04_validation')
+    sensitivity=read('minutes_threshold_sensitivity.csv',ROOT/'validation')
+    failure=read('MIN270_2022_23_failure_diagnostic.csv',ROOT/'validation')
+    pooled=read('MIN270_temporal_pooled_results.csv',ROOT/'validation')
     stories=pd.DataFrame([
-      ['A','SUPPORTED','Performance improves over structural information; position reliance differences are descriptive, not confirmed interactions.','04_validation/MIN270_temporal_pooled_results.csv; 05_position_analysis/position_feature_importance_grouped.csv'],
-      ['B','NOT_SUPPORTED','Tested separate role blocks perform worse than pooled Model 4 on identical OOF cases.','05_position_analysis/role_block_vs_global_model4.csv'],
-      ['C','WEAK','CB has no detectable xG increment, but attacking-role incremental intervals also include zero.','05_position_analysis/xg_position_ablation.csv'],
-      ['D','WEAK','Temporal subgroup patterns fail cross-source robustness; zero ROBUST residual findings.','06_residual_analysis/residual_robustness_matrix.csv'],
-      ['E','STRONGLY_SUPPORTED','Exposure instability is a clear diagnostic; improvement is conditional on a restricted population, not a same-population treatment effect.','04_validation/minutes_threshold_sensitivity.csv; 04_validation/MIN270_2022_23_failure_diagnostic.csv'],
-      ['F','SUPPORTED','At current sample sizes, pooled training is a stronger benchmark than tested fragmented role models; not a universal modeling claim.','05_position_analysis/role_block_vs_global_model4.csv']
+      ['A','SUPPORTED','Performance improves over structural information; position reliance differences are descriptive, not confirmed interactions.','validation/MIN270_temporal_pooled_results.csv; positions/position_feature_importance_grouped.csv'],
+      ['B','NOT_SUPPORTED','Tested separate role blocks perform worse than pooled Model 4 on identical OOF cases.','positions/role_block_vs_global_model4.csv'],
+      ['C','WEAK','CB has no detectable xG increment, but attacking-role incremental intervals also include zero.','positions/xg_position_ablation.csv'],
+      ['D','WEAK','Temporal subgroup patterns fail cross-source robustness; zero ROBUST residual findings.','residuals/residual_robustness_matrix.csv'],
+      ['E','STRONGLY_SUPPORTED','Exposure instability is a clear diagnostic; improvement is conditional on a restricted population, not a same-population treatment effect.','validation/minutes_threshold_sensitivity.csv; validation/MIN270_2022_23_failure_diagnostic.csv'],
+      ['F','SUPPORTED','At current sample sizes, pooled training is a stronger benchmark than tested fragmented role models; not a universal modeling claim.','positions/role_block_vs_global_model4.csv']
     ],columns=['story','classification','interpretation','source_files'])
     stories.to_csv(T/'PHASE4_research_story_evidence.csv',index=False)
     storytext='## Candidate assessment\n'+table(stories)+'''\n
@@ -126,7 +126,7 @@ No player appears under multiple mapped position groups in the saved sample. The
 
 ## Descriptive distributions and correlations\n'''+table(dsel)+'''
 
-These correlations are descriptive and were not used to select the primary model. Full available metrics and player-cluster correlation intervals: `05_position_analysis/position_metric_descriptives.csv`.
+These correlations are descriptive and were not used to select the primary model. Full available metrics and player-cluster correlation intervals: `positions/position_metric_descriptives.csv`.
 
 ## Grouped held-out importance\n'''+table(top,cols)+'\n\n## Temporal held-out importance (coverage-qualified top two per position)\n'+table(temporal[(temporal.folds_contributing>=3)&(temporal.unique_players>=25)].sort_values('mean_delta_rmse',ascending=False).groupby('position',sort=False).head(2),cols)+'\n\n## Direct xG ablation\n'+table(ab,xcols)+'\n\n## Role-specific blocks\n'+table(blocks,bcols)+'\n\n## Planned interactions\n'+table(omnibus,icols)+'\n\n## Goalkeepers\n'+table(gk,bcols)+'''
 
@@ -146,10 +146,10 @@ Partially supported as a caution about universal xG use. Not supported as a stro
 Primary E: exposure-aware validation and the denominator-instability failure mechanism, explicitly conditional on the exposure-qualified population. Secondary A: performance improves the structural benchmark with descriptive role-relevant signals. Do not emphasize residual market premiums. Full classifications and exact evidence: PHASE4_RESEARCH_STORY_DECISION.md.
 
 ## Figure and reproducibility
-`07_figures/position_feature_importance_heatmap.pdf` and `.png` show raw grouped delta RMSE with selected-fold coverage. Gray is low coverage or no selection, not zero importance. Source data include all raw estimates and the display mask. Reproducibility commands and QA scope are in POSITION_RESIDUAL_REPRODUCIBILITY.md.
+`figures/position_feature_importance_heatmap.pdf` and `.png` show raw grouped delta RMSE with selected-fold coverage. Gray is low coverage or no selection, not zero importance. Source data include all raw estimates and the display mask. Reproducibility commands and QA scope are in POSITION_RESIDUAL_REPRODUCIBILITY.md.
 '''+LIMITS
     report('PHASE4_POSITION_AND_RESIDUAL_REPORT.md','Phase 4 Position and Residual Master Report',master)
-    definitions=read('PER90_FEATURE_DEFINITIONS.csv',ROOT/'04_validation')
+    definitions=read('PER90_FEATURE_DEFINITIONS.csv',ROOT/'validation')
     features=set(descr.feature)|set(imp.feature)
     definitions=definitions[definitions.feature.isin(features)]
     definitions.to_csv(P/'position_feature_definition_register.csv',index=False)
@@ -158,9 +158,9 @@ Run from the revision root, with the same numerical-library environment as the p
 
 ```sh
 export OPENBLAS_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 OMP_NUM_THREADS=1
-python -B 05_position_analysis/tools/analyze_positions.py
-python -B 05_position_analysis/tools/analyze_residuals.py
-python -B 05_position_analysis/tools/report_positions.py
+python -B positions/tools/analyze_positions.py
+python -B positions/tools/analyze_residuals.py
+python -B positions/tools/report_positions.py
 ```
 
 The first two commands reproduce this exploratory phase's files; they do not alter earlier modeling results. Do not rerun them merely to render reports. Reports read saved calculations, not hard-coded headline metrics. SHA-derived seeds, 30 permutations and 1,000 cluster bootstrap replicates are specified in the analysis plan. The fixed-fold uncertainty does not refit models. The phase's pre-analysis manifest copy is the immutable integrity baseline.
@@ -215,7 +215,7 @@ def qa():
         assert path.exists(),row.relative_path
         assert hashlib.sha256(path.read_bytes()).hexdigest()==row.sha256,row.relative_path
         preserved+=1
-    data=read('primary_min270_dataset.csv',ROOT/'02_data/final').set_index('original_clean_row_id')
+    data=read('primary_min270_dataset.csv',ROOT/'datasets/final').set_index('original_clean_row_id')
     data['age_centered']=data.age_at_transfer-25;data['age_centered_squared']=data.age_centered**2
     audit=json.loads((P/'position_training_audit.json').read_text())
     forbidden={'contract_years_remaining','from_league','league_level_diff','market_value_in_eur','transfer_fee','season_proxy_flag'}
@@ -238,7 +238,7 @@ def qa():
             assert set(b['selected'])-set(a['selected'])=={'xG_Per'} and not set(a['selected'])-set(b['selected'])
     gaps={}
     for new,oldname in [('global_model4_group_oof_recreated.csv','MIN270_player_group_oof_predictions.csv'),('global_model4_temporal_oof_recreated.csv','MIN270_temporal_oof_predictions.csv')]:
-        n=read(new);o=read(oldname,ROOT/'04_validation');o=o[o.model.eq('Model 4')]
+        n=read(new);o=read(oldname,ROOT/'validation');o=o[o.model.eq('Model 4')]
         m=n.merge(o,on='row_id',validate='one_to_one');assert len(m)==len(n)==len(o)
         gaps[new]=float(abs(m.predicted-m.predicted_log_fee).max());assert gaps[new]<1e-8
     imp=read('position_feature_importance_grouped.csv');assert imp.loc[imp.folds_contributing.eq(0),'mean_delta_rmse'].isna().all()
