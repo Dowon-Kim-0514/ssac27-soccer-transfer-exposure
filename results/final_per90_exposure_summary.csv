@@ -1,0 +1,128 @@
+record_type,statistic,value,units,n,threshold_90s,percent,group,category,group_total
+exposure_quantile,minimum,0.0,90s,1115,,,,,
+exposure_quantile,p01,0.5,90s,1115,,,,,
+exposure_quantile,p025,1.0,90s,1115,,,,,
+exposure_quantile,p05,2.97,90s,1115,,,,,
+exposure_quantile,p10,6.2,90s,1115,,,,,
+exposure_quantile,p25,12.4,90s,1115,,,,,
+exposure_quantile,median,21.1,90s,1115,,,,,
+low_exposure_count,,,,25,1.0,2.242152466367713,,,
+low_exposure_group_count,,,,4,1.0,2.5641025641025643,transfer_season,2018-19,156.0
+low_exposure_group_count,,,,5,1.0,2.4038461538461537,transfer_season,2019-20,208.0
+low_exposure_group_count,,,,3,1.0,2.542372881355932,transfer_season,2020-21,118.0
+low_exposure_group_count,,,,3,1.0,1.948051948051948,transfer_season,2021-22,154.0
+low_exposure_group_count,,,,6,1.0,2.4896265560165975,transfer_season,2022-23,241.0
+low_exposure_group_count,,,,4,1.0,1.680672268907563,transfer_season,2023-24,238.0
+low_exposure_group_count,,,,10,1.0,2.9761904761904763,position,Attack,336.0
+low_exposure_group_count,,,,4,1.0,1.146131805157593,position,Defender,349.0
+low_exposure_group_count,,,,0,1.0,0.0,position,Goalkeeper,77.0
+low_exposure_group_count,,,,11,1.0,3.1161473087818696,position,Midfield,353.0
+low_exposure_group_count,,,,4,1.0,5.555555555555555,sub_position,Attacking Midfield,72.0
+low_exposure_group_count,,,,5,1.0,3.7037037037037037,sub_position,Central Midfield,135.0
+low_exposure_group_count,,,,2,1.0,1.015228426395939,sub_position,Centre-Back,197.0
+low_exposure_group_count,,,,3,1.0,1.530612244897959,sub_position,Centre-Forward,196.0
+low_exposure_group_count,,,,1,1.0,0.8264462809917356,sub_position,Defensive Midfield,121.0
+low_exposure_group_count,,,,0,1.0,0.0,sub_position,Goalkeeper,77.0
+low_exposure_group_count,,,,0,1.0,0.0,sub_position,Left Midfield,8.0
+low_exposure_group_count,,,,3,1.0,4.411764705882353,sub_position,Left Winger,68.0
+low_exposure_group_count,,,,1,1.0,1.2658227848101267,sub_position,Left-Back,79.0
+low_exposure_group_count,,,,1,1.0,5.882352941176471,sub_position,Right Midfield,17.0
+low_exposure_group_count,,,,4,1.0,6.349206349206349,sub_position,Right Winger,63.0
+low_exposure_group_count,,,,1,1.0,1.36986301369863,sub_position,Right-Back,73.0
+low_exposure_group_count,,,,0,1.0,0.0,sub_position,Second Striker,9.0
+low_exposure_count,,,,41,2.0,3.6771300448430493,,,
+low_exposure_group_count,,,,7,2.0,4.487179487179487,transfer_season,2018-19,156.0
+low_exposure_group_count,,,,9,2.0,4.326923076923077,transfer_season,2019-20,208.0
+low_exposure_group_count,,,,5,2.0,4.237288135593221,transfer_season,2020-21,118.0
+low_exposure_group_count,,,,4,2.0,2.5974025974025974,transfer_season,2021-22,154.0
+low_exposure_group_count,,,,10,2.0,4.149377593360996,transfer_season,2022-23,241.0
+low_exposure_group_count,,,,6,2.0,2.5210084033613445,transfer_season,2023-24,238.0
+low_exposure_group_count,,,,12,2.0,3.5714285714285716,position,Attack,336.0
+low_exposure_group_count,,,,9,2.0,2.5787965616045847,position,Defender,349.0
+low_exposure_group_count,,,,5,2.0,6.4935064935064934,position,Goalkeeper,77.0
+low_exposure_group_count,,,,15,2.0,4.2492917847025495,position,Midfield,353.0
+low_exposure_group_count,,,,6,2.0,8.333333333333334,sub_position,Attacking Midfield,72.0
+low_exposure_group_count,,,,5,2.0,3.7037037037037037,sub_position,Central Midfield,135.0
+low_exposure_group_count,,,,6,2.0,3.045685279187817,sub_position,Centre-Back,197.0
+low_exposure_group_count,,,,5,2.0,2.5510204081632653,sub_position,Centre-Forward,196.0
+low_exposure_group_count,,,,3,2.0,2.479338842975207,sub_position,Defensive Midfield,121.0
+low_exposure_group_count,,,,5,2.0,6.4935064935064934,sub_position,Goalkeeper,77.0
+low_exposure_group_count,,,,0,2.0,0.0,sub_position,Left Midfield,8.0
+low_exposure_group_count,,,,3,2.0,4.411764705882353,sub_position,Left Winger,68.0
+low_exposure_group_count,,,,1,2.0,1.2658227848101267,sub_position,Left-Back,79.0
+low_exposure_group_count,,,,1,2.0,5.882352941176471,sub_position,Right Midfield,17.0
+low_exposure_group_count,,,,4,2.0,6.349206349206349,sub_position,Right Winger,63.0
+low_exposure_group_count,,,,2,2.0,2.73972602739726,sub_position,Right-Back,73.0
+low_exposure_group_count,,,,0,2.0,0.0,sub_position,Second Striker,9.0
+low_exposure_count,,,,56,3.0,5.022421524663677,,,
+low_exposure_group_count,,,,11,3.0,7.051282051282051,transfer_season,2018-19,156.0
+low_exposure_group_count,,,,10,3.0,4.8076923076923075,transfer_season,2019-20,208.0
+low_exposure_group_count,,,,6,3.0,5.084745762711864,transfer_season,2020-21,118.0
+low_exposure_group_count,,,,5,3.0,3.2467532467532467,transfer_season,2021-22,154.0
+low_exposure_group_count,,,,13,3.0,5.394190871369295,transfer_season,2022-23,241.0
+low_exposure_group_count,,,,11,3.0,4.621848739495798,transfer_season,2023-24,238.0
+low_exposure_group_count,,,,17,3.0,5.059523809523809,position,Attack,336.0
+low_exposure_group_count,,,,11,3.0,3.151862464183381,position,Defender,349.0
+low_exposure_group_count,,,,6,3.0,7.792207792207792,position,Goalkeeper,77.0
+low_exposure_group_count,,,,22,3.0,6.232294617563739,position,Midfield,353.0
+low_exposure_group_count,,,,9,3.0,12.5,sub_position,Attacking Midfield,72.0
+low_exposure_group_count,,,,8,3.0,5.925925925925926,sub_position,Central Midfield,135.0
+low_exposure_group_count,,,,6,3.0,3.045685279187817,sub_position,Centre-Back,197.0
+low_exposure_group_count,,,,6,3.0,3.061224489795918,sub_position,Centre-Forward,196.0
+low_exposure_group_count,,,,4,3.0,3.3057851239669422,sub_position,Defensive Midfield,121.0
+low_exposure_group_count,,,,6,3.0,7.792207792207792,sub_position,Goalkeeper,77.0
+low_exposure_group_count,,,,0,3.0,0.0,sub_position,Left Midfield,8.0
+low_exposure_group_count,,,,5,3.0,7.352941176470588,sub_position,Left Winger,68.0
+low_exposure_group_count,,,,2,3.0,2.5316455696202533,sub_position,Left-Back,79.0
+low_exposure_group_count,,,,1,3.0,5.882352941176471,sub_position,Right Midfield,17.0
+low_exposure_group_count,,,,6,3.0,9.523809523809524,sub_position,Right Winger,63.0
+low_exposure_group_count,,,,3,3.0,4.109589041095891,sub_position,Right-Back,73.0
+low_exposure_group_count,,,,0,3.0,0.0,sub_position,Second Striker,9.0
+low_exposure_count,,,,86,5.0,7.713004484304933,,,
+low_exposure_group_count,,,,14,5.0,8.974358974358974,transfer_season,2018-19,156.0
+low_exposure_group_count,,,,15,5.0,7.211538461538462,transfer_season,2019-20,208.0
+low_exposure_group_count,,,,8,5.0,6.779661016949152,transfer_season,2020-21,118.0
+low_exposure_group_count,,,,8,5.0,5.194805194805195,transfer_season,2021-22,154.0
+low_exposure_group_count,,,,23,5.0,9.54356846473029,transfer_season,2022-23,241.0
+low_exposure_group_count,,,,18,5.0,7.563025210084033,transfer_season,2023-24,238.0
+low_exposure_group_count,,,,27,5.0,8.035714285714286,position,Attack,336.0
+low_exposure_group_count,,,,21,5.0,6.017191977077364,position,Defender,349.0
+low_exposure_group_count,,,,8,5.0,10.38961038961039,position,Goalkeeper,77.0
+low_exposure_group_count,,,,30,5.0,8.498583569405099,position,Midfield,353.0
+low_exposure_group_count,,,,10,5.0,13.88888888888889,sub_position,Attacking Midfield,72.0
+low_exposure_group_count,,,,11,5.0,8.148148148148149,sub_position,Central Midfield,135.0
+low_exposure_group_count,,,,7,5.0,3.553299492385787,sub_position,Centre-Back,197.0
+low_exposure_group_count,,,,10,5.0,5.1020408163265305,sub_position,Centre-Forward,196.0
+low_exposure_group_count,,,,8,5.0,6.6115702479338845,sub_position,Defensive Midfield,121.0
+low_exposure_group_count,,,,8,5.0,10.38961038961039,sub_position,Goalkeeper,77.0
+low_exposure_group_count,,,,0,5.0,0.0,sub_position,Left Midfield,8.0
+low_exposure_group_count,,,,9,5.0,13.235294117647058,sub_position,Left Winger,68.0
+low_exposure_group_count,,,,9,5.0,11.39240506329114,sub_position,Left-Back,79.0
+low_exposure_group_count,,,,1,5.0,5.882352941176471,sub_position,Right Midfield,17.0
+low_exposure_group_count,,,,8,5.0,12.698412698412698,sub_position,Right Winger,63.0
+low_exposure_group_count,,,,5,5.0,6.8493150684931505,sub_position,Right-Back,73.0
+low_exposure_group_count,,,,0,5.0,0.0,sub_position,Second Striker,9.0
+low_exposure_count,,,,207,10.0,18.565022421524663,,,
+low_exposure_group_count,,,,31,10.0,19.871794871794872,transfer_season,2018-19,156.0
+low_exposure_group_count,,,,39,10.0,18.75,transfer_season,2019-20,208.0
+low_exposure_group_count,,,,22,10.0,18.64406779661017,transfer_season,2020-21,118.0
+low_exposure_group_count,,,,20,10.0,12.987012987012987,transfer_season,2021-22,154.0
+low_exposure_group_count,,,,40,10.0,16.597510373443985,transfer_season,2022-23,241.0
+low_exposure_group_count,,,,55,10.0,23.10924369747899,transfer_season,2023-24,238.0
+low_exposure_group_count,,,,71,10.0,21.13095238095238,position,Attack,336.0
+low_exposure_group_count,,,,55,10.0,15.759312320916905,position,Defender,349.0
+low_exposure_group_count,,,,13,10.0,16.883116883116884,position,Goalkeeper,77.0
+low_exposure_group_count,,,,68,10.0,19.26345609065156,position,Midfield,353.0
+low_exposure_group_count,,,,17,10.0,23.61111111111111,sub_position,Attacking Midfield,72.0
+low_exposure_group_count,,,,26,10.0,19.25925925925926,sub_position,Central Midfield,135.0
+low_exposure_group_count,,,,28,10.0,14.213197969543147,sub_position,Centre-Back,197.0
+low_exposure_group_count,,,,34,10.0,17.346938775510203,sub_position,Centre-Forward,196.0
+low_exposure_group_count,,,,20,10.0,16.52892561983471,sub_position,Defensive Midfield,121.0
+low_exposure_group_count,,,,13,10.0,16.883116883116884,sub_position,Goalkeeper,77.0
+low_exposure_group_count,,,,1,10.0,12.5,sub_position,Left Midfield,8.0
+low_exposure_group_count,,,,19,10.0,27.941176470588236,sub_position,Left Winger,68.0
+low_exposure_group_count,,,,17,10.0,21.518987341772153,sub_position,Left-Back,79.0
+low_exposure_group_count,,,,4,10.0,23.529411764705884,sub_position,Right Midfield,17.0
+low_exposure_group_count,,,,17,10.0,26.984126984126984,sub_position,Right Winger,63.0
+low_exposure_group_count,,,,10,10.0,13.698630136986301,sub_position,Right-Back,73.0
+low_exposure_group_count,,,,1,10.0,11.11111111111111,sub_position,Second Striker,9.0
