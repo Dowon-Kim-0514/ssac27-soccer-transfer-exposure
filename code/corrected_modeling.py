@@ -6,8 +6,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split, KFold, GroupKFold
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
-ROOT=Path(__file__).resolve().parents[2]
-D=ROOT/'02_data/final'; M=ROOT/'03_models'; V=ROOT/'04_validation'; T=ROOT/'08_tables'; R=ROOT/'09_reports'
+ROOT=Path(__file__).resolve().parents[1]/"data"/"work"
+D=ROOT/'datasets/final'; M=ROOT/'models'; V=ROOT/'validation'; T=ROOT/'tables'; R=ROOT/'reports'
 SEED=42
 TRAD=['Gls_per90','Ast_per90','Mins_Per_90_Playing']
 ADV=['xG_Per','Succ_Take_per90','PrgC_per90','Cmp_percent_Total','KP_per90','Won_percent_Aerial','Recov_per90']
@@ -206,7 +206,7 @@ def main():
     if not (M/'PHASE2_RESULTS_MANIFEST.csv').exists():shutil.copy2(ROOT/'RESULTS_MANIFEST.csv',M/'PHASE2_RESULTS_MANIFEST.csv')
     v4=pd.read_csv(D/'strict_pretransfer_identity_without_contract_dataset.csv')
     v5=pd.read_csv(D/'strict_pretransfer_identity_league_confirmed_without_contract_dataset.csv')
-    audit=pd.read_csv(ROOT/'02_data/intermediate/club_league_timing_audit.csv').set_index('original_clean_row_id')
+    audit=pd.read_csv(ROOT/'datasets/intermediate/club_league_timing_audit.csv').set_index('original_clean_row_id')
     ids=audit.index[audit.big5_destination_observed_in_transfer_season]
     primary=v4[v4.original_clean_row_id.isin(ids)].copy()
     assert primary.historical_big5_destination_status.eq('OBSERVED_BIG5').all()
