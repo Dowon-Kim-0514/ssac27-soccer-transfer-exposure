@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-ROOT=Path(__file__).resolve().parents[2]
-D=ROOT/'02_data/final';M=ROOT/'03_models';V=ROOT/'04_validation';T=ROOT/'08_tables';R=ROOT/'09_reports'
-spec=importlib.util.spec_from_file_location('phase3',M/'tools/corrected_modeling.py')
+ROOT=Path(__file__).resolve().parents[1]/"data"/"work"
+D=ROOT/'datasets/final';M=ROOT/'models';V=ROOT/'validation';T=ROOT/'tables';R=ROOT/'reports'
+spec=importlib.util.spec_from_file_location('phase3',Path(__file__).resolve().parent/'corrected_modeling.py')
 p3=importlib.util.module_from_spec(spec);spec.loader.exec_module(p3)
 MANUAL={'Gls_per90':'Gls','Ast_per90':'Ast','GA_per90':'G+A','npGoals_per90':'npGoals',
         'PrgC_per90':'PrgC_Carries','PrgDist_per90':'PrgDist_Carries','Final_Third_per90':'Final_Third_Carries',
@@ -34,7 +34,7 @@ def main():
               fixed_before_revised_performance=True,source='User-prespecified thresholds, not optimized on validation scores',
               threshold_column='Mins_Per_90_Playing',threshold_scale='Recorded rounded 90-minute equivalents; 270/450/900 are nominal minutes',
               structural='A',age_spec=1,seed=42,contract=False,origin_predictors=False,
-              candidates=p3.CAND,phase3_implementation_sha256=sha(M/'tools/corrected_modeling.py'),
+              candidates=p3.CAND,phase3_implementation_sha256=sha(Path(__file__).resolve().parent/'corrected_modeling.py'),
               selection='Unchanged training-local candidate VIF<=5 then backward simultaneous AIC/BIC improvement',
               nested_cv='5 outer development folds; preprocessing and selection inside training. Age fixed by request; no age tuning or inner hyperparameter grid',
               unknown_future_category='Unchanged training-frequency-weighted encoding',
@@ -86,8 +86,8 @@ def main():
                 audit.append(dict(record_type='low_exposure_group_count',threshold_90s=threshold,group=group,category=category,n=n,group_total=len(g),percent=100*n/len(g)))
     save(audit,'PER90_EXPOSURE_AUDIT.csv')
 
-    lineage=pd.read_csv(ROOT/'02_data/intermediate/original_clean_lineage.csv',low_memory=False).set_index('original_clean_row_id')
-    raw_path=ROOT/'01_audit/reproduction/fresh_cache_attempt/downloaded_tables/standard_data.csv'
+    lineage=pd.read_csv(ROOT/'datasets/intermediate/original_clean_lineage.csv',low_memory=False).set_index('original_clean_row_id')
+    raw_path=ROOT.parent/'inputs/fbref_tables/standard_data.csv'
     raw=pd.read_csv(raw_path,low_memory=False)
     keys=['Player','Squad','Season_End_Year']
     assert not raw.duplicated(keys).any()
