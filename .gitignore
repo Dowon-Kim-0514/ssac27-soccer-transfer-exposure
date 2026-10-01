@@ -1,0 +1,13 @@
+# Never publish source data, row-level outputs or local environments.
+data/inputs/
+data/work/
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+.Rhistory
+.RData
+.DS_Store
+.matplotlib/
+*.log
