@@ -1,107 +1,41 @@
-# Data Access and Redistribution
+# Data Access and Rights
 
-This study uses third-party soccer performance and transfer data.
+## Transfer Source
+Football Data from Transfermarkt. Owner: David Cariboo (`davidcariboo`).
 
-## Player Performance Data
+Dataset: https://www.kaggle.com/datasets/davidcariboo/player-scores
+Source repository: https://github.com/dcaribou/transfermarkt-datasets
+Provider terms: https://www.transfermarkt.com/intern/anb
 
-Player performance data were obtained through the `worldfootballR` package using:
+This is the source identified by the project author. The exact historical Spring 2026 Kaggle version could not be independently recovered. Current dataset versions must not be described as the exact historical input. The source's CC0 label is not a blanket clearance for every upstream record or for FBref-derived data.
 
-`worldfootballR::load_fb_big5_advanced_season_stats()`
+The complete published workflow requires **six** Kaggle CSVs:
 
-The original data collection used season end years 2018 through 2024 and the following player-level modules:
+| File | Code use |
+|---|---|
+| transfers.csv | Original transfer construction in original_cleaning_from_cache.R |
+| players.csv | Original join and build_phase2.py identity/contract audit |
+| clubs.csv | Original destination/origin labels and Phase 2 corroboration |
+| games.csv | Phase 2 observed season boundaries and club-season membership |
+| competitions.csv | Phase 2 competition context |
+| appearances.csv | Phase 2 dated player/club appearance evidence |
 
-- standard
-- shooting
-- passing
-- possession
-- misc
-- defense
-- keepers
-- keepers_adv
+No additional Kaggle tables are read by the published scripts. Countries, national teams, game events, game lineups, player valuations and club_games files from the larger bundle are not required by this published workflow. This does not mean the six files alone are sufficient: historical FBref and reference inputs are also required.
 
-Function documentation:
+PUBLIC_SOURCE_FILE_FINGERPRINTS.csv provides hashes, row counts (excluding header), and column counts for the preserved six originals. Local archived modification times do not establish Kaggle version dates, update dates or download dates. Matching filenames/schemas without matching bytes does not establish the exact snapshot.
 
-https://jaseziv.github.io/worldfootballR/reference/load_fb_big5_advanced_season_stats.html
+## Performance Source
+The original function was `worldfootballR::load_fb_big5_advanced_season_stats`, player-level, season end years 2018 through 2024. Modules: standard, shooting, passing, possession, misc, defense, keepers, keepers_adv. The final primary performance seasons are 2017-18 through 2022-23; transfers are 2018-19 through 2023-24.
 
-The function accessed cached Big Five season data distributed through the worldfootballR data repository using files of the form:
+Function: https://jaseziv.github.io/worldfootballR/reference/load_fb_big5_advanced_season_stats.html
+Cache pattern: `https://github.com/JaseZiv/worldfootballR_data/releases/download/fb_big5_advanced_season_stats/big5_player_{MODULE}.rds`
+Provider: https://fbref.com/
+Terms: https://www.sports-reference.com/termsofuse.html
+Data policy: https://www.sports-reference.com/data_use.html
 
-`https://github.com/JaseZiv/worldfootballR_data/releases/download/fb_big5_advanced_season_stats/big5_player_{MODULE}.rds`
+Cached source acquisition is not equivalent to a verified historical publication timestamp. The archived combined file, standard module and advanced goalkeeper module remain required private inputs. See data/README.md. No data package license is inferred from the worldfootballR software license.
 
-Example:
+## Non-Redistribution and Organizer Guidance
+No third-party player-level source files, derived records, predictions, residuals, crosswalks or split memberships are included. The author does not independently claim complete upstream redistribution rights. Source links and aggregate fingerprints are not substitutes for legal permission.
 
-https://github.com/JaseZiv/worldfootballR_data/releases/download/fb_big5_advanced_season_stats/big5_player_shooting.rds
-
-Underlying provider:
-
-https://fbref.com/
-
-Sports Reference Terms of Use:
-
-https://www.sports-reference.com/termsofuse.html
-
-Sports Reference Data Use Policy:
-
-https://www.sports-reference.com/data_use.html
-
-## Transfer Data
-
-Transfer and player metadata were obtained from the Kaggle dataset:
-
-**Football Data from Transfermarkt**
-
-Dataset owner:
-
-David Cariboo
-
-Dataset URL:
-
-https://www.kaggle.com/datasets/davidcariboo/player-scores
-
-Files used in the project:
-
-- `transfers.csv`
-- `players.csv`
-- `clubs.csv`
-
-The Kaggle page currently lists the dataset under the CC0: Public Domain license.
-
-The exact historical Kaggle version used during the Spring 2026 data collection could not be independently recovered from the preserved project metadata. The current dataset page is therefore cited as the identified source dataset without claiming that the current version is identical to the historical version used in the original analysis.
-
-Original data provider:
-
-https://www.transfermarkt.com/
-
-Transfermarkt Terms of Use:
-
-https://www.transfermarkt.com/intern/anb
-
-## Redistribution
-
-Player-level raw and derived records are not redistributed in this repository.
-
-This includes:
-
-- raw FBref player-level files
-- cached FBref player-level files
-- raw Transfermarkt-derived records
-- merged player-level analytical datasets
-- player-level predictions
-- player-level residuals
-- observation-level validation membership files
-
-The author does not independently claim redistribution rights over all third-party records used in the study.
-
-## SSAC27 Open-Source Requirement
-
-Before submission, the author contacted the SSAC27 Research Paper Competition organizers to clarify the open-source requirement for research using third-party data.
-
-The organizers confirmed that, where third-party terms restrict redistribution of player-level records, the open-source requirement may be satisfied by providing:
-
-- full analysis and modeling code
-- a data dictionary and variable definitions
-- exact source links and provenance
-- documentation of data acquisition and processing
-- aggregate results and figures
-- reproducibility documentation
-
-This repository follows that structure and intentionally excludes third-party player-level raw and derived records.
+The previous public documentation reports that organizers accepted a code/documentation/aggregate-output alternative by email. That private correspondence was not independently inspected in this QA. Retain it privately and confirm its scope; this audit does not certify conference compliance or disclose the correspondence. Public reproducibility remains conditional on authorized access to matching historical inputs.
