@@ -1,112 +1,49 @@
 # Reproducibility
 
-This repository provides the analysis code, methodology, data dictionary, aggregate outputs, and documentation needed to reconstruct the research workflow.
+## Status and Scope
+The release adaptations change paths and public I/O only. They do not alter MIN270, seeds, features, estimators, formulas or validation. The published numerical results and figures are preserved byte-for-byte. No models or statistical analyses were run during this task. Syntax, dependency/path closure, imports and security were checked; end-to-end numerical reproduction was NOT rerun and must not be represented as newly verified.
 
-The underlying player-level data are not redistributed because they originate from third-party sources for which the author does not hold independent redistribution rights.
+Authorized historical inputs are required. A fresh public checkout alone cannot reproduce withheld row-level data. The exact historical Spring 2026 Kaggle version was not independently recovered; obtaining the current version is not guaranteed sufficient. The fingerprint table identifies the six preserved CSVs without publishing them.
 
-Researchers with authorized access to the original sources can reconstruct the analysis using the documented data sources and the scripts in this repository.
+## Inputs
+See data/README.md for the exact paths. Required Kaggle files: transfers.csv, players.csv, clubs.csv, games.csv, competitions.csv, appearances.csv. Also required: preserved original clean_data.csv and fbref_combined.csv, plus standard_data.csv and keepers_adv_data.csv module exports. These extra private reference inputs are an explicit limitation, not files assumed to appear automatically after installing dependencies.
 
-## Data Sources Required
+The R fetch script documents the eight-module acquisition and original combination procedure. It writes fresh downloads to work/acquisition/, not to historical inputs. It must not silently replace the original combined snapshot. The cached cleaning helper regenerates original joins inside export_lineage.R and checks equality against the preserved clean baseline. It is not a standalone script.
 
-### Player performance data
+## Layout and Preparation
+Use Python 3.12.13 with requirements.txt and the recorded R environment described in R_DEPENDENCIES.md. All commands below run from the repository root. Only --check was executed during release QA.
 
-Player performance data were obtained through:
+```sh
+python code/prepare_public_workspace.py --check
+python code/prepare_public_workspace.py --initialize
+```
 
-`worldfootballR::load_fb_big5_advanced_season_stats()`
+Initialization refuses missing inputs or an existing work manifest. It creates ignored data/work/ and a hash manifest of the supplied inputs/code, rather than copying private historical machine paths. Manifest preservation checks therefore refer to this reproduction workspace, not a claim to have reproduced all historical audit artifacts.
 
-The original collection used season end years 2018 through 2024 and the following player-level modules:
+## Ordered Reconstruction Commands
+These are instructions for a future authorized run, NOT analyses performed in the current QA.
 
-- standard
-- shooting
-- passing
-- possession
-- misc
-- defense
-- keepers
-- keepers_adv
+```sh
+Rscript code/export_lineage.R .
+python code/original_models.py
+python code/build_phase2.py
+python code/finalize_phase2.py
+python code/corrected_modeling.py
+python code/per90_stability.py
+python code/analyze_positions.py
+python code/analyze_residuals.py
+python code/report_positions.py
+```
 
-Function documentation:
+The archived original_models.py stage produces the original model4_training_design.csv consumed by build_phase2.py. Its original models, contracts and XGBoost check are historical audit dependencies, NOT replacements for corrected primary models. It contains top-level analysis and must not be imported for a smoke test. All its outputs are redirected into ignored work/audit/. Original score outputs are not publication-ready final results.
 
-https://jaseziv.github.io/worldfootballR/reference/load_fb_big5_advanced_season_stats.html
+After manually reviewing regenerated position figures, the original optional `python code/report_positions.py --finalize` performs its preserved QA and updates only the work manifest/changelog. Its historical report wording is preserved and is not a new certification of visual or numerical correctness by this task.
 
-Cached Big Five data are distributed through the worldfootballR data repository using the pattern:
+## Outputs and Comparison
+Generated outputs go only to ignored data/work/{audit,datasets,models,validation,positions,residuals,figures,tables,reports,acquisition}. Results/ and figures/ at repository root are frozen publication references, not output directories.
 
-`https://github.com/JaseZiv/worldfootballR_data/releases/download/fb_big5_advanced_season_stats/big5_player_{MODULE}.rds`
+Compare work/models/MIN270_common_sample_holdout_results.csv with results/final_model_comparison.csv; work/validation/MIN270_nested_validation_summary.csv with results/final_nested_validation_summary.csv; work/validation/MIN270_player_group_validation_summary.csv with its final counterpart; and work/validation/MIN270_temporal_pooled_results.csv with results/final_temporal_pooled_results.csv. The copied final CSVs have different names; compare matching metric/model fields, not filenames or machine paths. The final freeze/figure-packaging pipeline is not claimed to be regenerated by report_positions.py.
 
-### Transfer data
+Expected MIN270 Model 4 R-squared: holdout 0.414, development mean 0.434, grouped mean 0.428, pooled temporal 0.435. Different evaluation targets must remain separate. Any mismatch must be investigated, not corrected by tuning constants or deleting observations.
 
-Transfer and player metadata were obtained from:
-
-**Football Data from Transfermarkt**
-
-Dataset owner: David Cariboo
-
-Kaggle dataset:
-
-https://www.kaggle.com/datasets/davidcariboo/player-scores
-
-Files used:
-
-- `transfers.csv`
-- `players.csv`
-- `clubs.csv`
-
-The exact historical Kaggle version used during Spring 2026 could not be independently recovered from the preserved project metadata.
-
-## Reproduction Workflow
-
-A researcher with access to the source data should:
-
-1. Obtain the required FBref/worldfootballR performance data.
-2. Obtain the Transfermarkt-derived Kaggle files listed above.
-3. Run the data-processing scripts in `code/`.
-4. Construct the analytical sample using the documented timing, identity, and eligibility rules.
-5. Apply the MIN270 primary exposure rule.
-6. Run the corrected modeling and validation scripts.
-7. Compare the resulting aggregate outputs with the CSV files in `results/`.
-
-## Primary Analysis Definition
-
-The primary analytical sample contains 1,059 transfers involving 863 players.
-
-Primary eligibility requires at least three recorded 90-minute equivalents of prior-season exposure.
-
-The target is the natural log of the recorded positive transfer fee.
-
-The primary structural specification includes centered quadratic age, position, destination league, and transfer season.
-
-Contract variables, uncertain origin-league predictors, market value, redundant structural predictors, and audit identifiers are excluded from the primary model.
-
-## Validation
-
-The final analysis includes:
-
-- random holdout validation
-- five-fold development cross-validation with fold-local preprocessing and feature selection
-- player-grouped cross-validation
-- expanding-window temporal validation
-
-## Expected Aggregate Results
-
-For Model 4 under the MIN270 primary sample:
-
-- Random holdout R²: approximately 0.414
-- Development cross-validation mean R²: approximately 0.434
-- Player-grouped cross-validation mean R²: approximately 0.428
-- Pooled temporal R²: approximately 0.435
-
-Detailed outputs are available in `results/`.
-
-## Data Not Included
-
-This repository intentionally does not include:
-
-- raw FBref player-level data
-- cached FBref player-level files
-- raw Transfermarkt-derived player records
-- merged player-level analytical datasets
-- player-level predictions
-- player-level residuals
-- observation-level split membership files
-
-These exclusions follow third-party redistribution restrictions and SSAC27 guidance for open-source submissions using restricted row-level data.
+PATH_ADAPTATIONS.md and CODE_PROVENANCE.csv identify every changed script. Release checks covered syntax, repository-local paths, dependencies, and accidental data exposure. End-to-end numerical reproduction was not rerun. No claim is made that current dependencies/caches reproduce the unavailable historical Spring authoring environment.
